@@ -42,8 +42,8 @@
                         $Pano: $(el).find("#Pano"),
                     },
                     Map: {
-                        $NormalMap: $(el).find("[data-street-view-normal-map]"),
-                        $Panorama: $(el).find("[data-street-view-map]")
+                        $Hybrid: $(el).find("[data-street-view-hybrid]"),
+                        $Panorama: $(el).find("[data-street-view-panorama]")
                     },
                     Search: {
                         $Input: $(el).find("[name='StreetViewSearch']"),
@@ -55,48 +55,47 @@
                 }
 
                 var that = this;
-
-                this.GooglePlacesSearchBox = new google.maps.places.SearchBox(that.Element.Search.$Input[0]); // Link the search box with Google Places search.
-                this.StreetViewService = new google.maps.StreetViewService();
-
+				
                 // Initalise the normal map.
-                this.NormalMap = new google.maps.Map(that.Element.Map.$NormalMap[0], {
-                    zoom: 16,
-                    center: new google.maps.LatLng(that.Data.Latitude, that.Data.Longitude),
-                    panControl: true,
-                    zoomControl: true,
-                    scaleControl: true,
-                    mapTypeId: google.maps.MapTypeId.HYBRID
-                });
-
-                // Initalise the Panorama.
-                this.Panorama = new google.maps.StreetViewPanorama(
-                    that.Element.Map.$Panorama[0], {
-                        position: { lat: that.Data.Latitude, lng: that.Data.Longitude },
-                        pov: {
-                            heading: that.Data.Heading,
-                            pitch: that.Data.Pitch
-                        },
-                        visible: true,
-                        pano: that.Data.Pano,
-                        zoom: that.Data.Zoom
-                    });
+				this.GoogleMapAPI = {
+					SearchBox: new google.maps.places.SearchBox(that.Element.Search.$Input[0]),
+					StreetViewService: new google.maps.StreetViewService(),
+					Hybrid: new google.maps.Map(that.Element.Map.$Hybrid[0], {
+						zoom: 16,
+						center: new google.maps.LatLng(that.Data.Latitude, that.Data.Longitude),
+						panControl: true,
+						zoomControl: true,
+						scaleControl: true,
+						mapTypeId: google.maps.MapTypeId.Hybrid
+					}),
+					Panorama: new google.maps.StreetViewPanorama(
+						that.Element.Map.$Panorama[0], {
+							position: { lat: that.Data.Latitude, lng: that.Data.Longitude },
+							pov: {
+								heading: that.Data.Heading,
+								pitch: that.Data.Pitch
+							},
+							visible: true,
+							pano: that.Data.Pano,
+							zoom: that.Data.Zoom
+						})				
+				}
 
             }
 
             GoogleStreetView.prototype = {
                 init: function () {
-                    this.NormalMap.setStreetView(this.Panorama); // Link the map with the panorama.
+                    this.GoogleMapAPI.Hybrid.setStreetView(this.GoogleMapAPI.Panorama); // Link the map with the panorama.
 
                 },
                 changeCoordinates: function () {
                     // Update the element textboxes with the results from the panorma.
-                    this.Element.Coordinates.$Latitude.val(this.Panorama.getPosition().lat());
-                    this.Element.Coordinates.$Longitude.val(this.Panorama.getPosition().lng());
-                    this.Element.Coordinates.$Heading.val(this.Panorama.getPov().heading);
-                    this.Element.Coordinates.$Pitch.val(this.Panorama.getPov().pitch);
-                    this.Element.Coordinates.$Pano.val(this.Panorama.pano);
-                    this.Element.Coordinates.$Zoom.val(this.Panorama.zoom);
+                    this.Element.Coordinates.$Latitude.val(this.GoogleMapAPI.Panorama.getPosition().lat());
+                    this.Element.Coordinates.$Longitude.val(this.GoogleMapAPI.Panorama.getPosition().lng());
+                    this.Element.Coordinates.$Heading.val(this.GoogleMapAPI.Panorama.getPov().heading);
+                    this.Element.Coordinates.$Pitch.val(this.GoogleMapAPI.Panorama.getPov().pitch);
+                    this.Element.Coordinates.$Pano.val(this.GoogleMapAPI.Panorama.pano);
+                    this.Element.Coordinates.$Zoom.val(this.GoogleMapAPI.Panorama.zoom);
                 },
                 changeLatitude: function(e) {
                     if (e) {
@@ -112,7 +111,7 @@
                 },
                 changeMapBounds: function () {
                     // Set boundary
-                    this.GooglePlacesSearchBox.setBounds(this.NormalMap.getBounds());
+                    this.GoogleMapAPI.SearchBox.setBounds(this.GoogleMapAPI.Hybrid.getBounds());
                 },
                 changePanoramaPosition: function () {
                     // When moving the panorama, update the textbox coordinates.
@@ -131,7 +130,7 @@
                 },
                 getSearchResults: function () {
                     // Get search results.
-                    var places = this.GooglePlacesSearchBox.getPlaces();
+                    var places = this.GoogleMapAPI.SearchBox.getPlaces();
 
                     if (places.length == 0) {
                         // No results found, so alert the user.
@@ -146,10 +145,10 @@
                         this.Element.Search.$Input.val(this.formatSearchResult(place.name, place.formatted_address));
 
                         // Update the map  with the search result.
-                        this.NormalMap.setCenter(place.geometry.location);
+                        this.GoogleMapAPI.Hybrid.setCenter(place.geometry.location);
 
                         // Update the panorama with the search result.
-                        this.Panorama.setPosition(new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()));
+                        this.GoogleMapAPI.Panorama.setPosition(new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()));
                     }
                     else {
                         // Hide search results.
@@ -200,8 +199,8 @@
                         var that = this;
 
                         if (!isNaN(this.Element.Coordinates.$Latitude.val()) && !isNaN(this.Element.Coordinates.$Longitude.val())) {
-                            this.NormalMap.setCenter(new google.maps.LatLng(that.Element.Coordinates.$Latitude.val(), that.Element.Coordinates.$Longitude.val()));
-                            this.Panorama.setPosition(new google.maps.LatLng(that.Element.Coordinates.$Latitude.val(), that.Element.Coordinates.$Longitude.val()));
+                            this.GoogleMapAPI.Hybrid.setCenter(new google.maps.LatLng(that.Element.Coordinates.$Latitude.val(), that.Element.Coordinates.$Longitude.val()));
+                            this.GoogleMapAPI.Panorama.setPosition(new google.maps.LatLng(that.Element.Coordinates.$Latitude.val(), that.Element.Coordinates.$Longitude.val()));
                         }
                     }
                 },
@@ -214,8 +213,8 @@
 
                         this.Element.Search.$Input.val(this.formatSearchResult($this.data("name"), $this.data("formatted-address")));
 
-                        this.NormalMap.setCenter(new google.maps.LatLng($this.data("latitude"), $this.data("longitude")));
-                        this.Panorama.setPosition(new google.maps.LatLng($this.data("latitude"), $this.data("longitude")));
+                        this.GoogleMapAPI.Hybrid.setCenter(new google.maps.LatLng($this.data("latitude"), $this.data("longitude")));
+                        this.GoogleMapAPI.Panorama.setPosition(new google.maps.LatLng($this.data("latitude"), $this.data("longitude")));
 
                         this.hideSearchResults();
                     }
@@ -234,16 +233,16 @@
                 instance.Element.Search.$ResultsLayout.on("click", "li a", function (e) {
                     instance.updateMapWithSearchResult(e);
                 });
-                instance.GooglePlacesSearchBox.addListener('places_changed', function () {
+                instance.GoogleMapAPI.SearchBox.addListener('places_changed', function () {
                     instance.getSearchResults();
                 });
-                instance.NormalMap.addListener('bounds_changed', function () {
+                instance.GoogleMapAPI.Hybrid.addListener('bounds_changed', function () {
                     instance.changeMapBounds();
                 });
-                instance.Panorama.addListener('position_changed', function () {
+                instance.GoogleMapAPI.Panorama.addListener('position_changed', function () {
                     instance.changePanoramaPosition();
                 });
-                instance.Panorama.addListener('pov_changed', function () {
+                instance.GoogleMapAPI.Panorama.addListener('pov_changed', function () {
                     instance.changePanoramaPov();
                 });
                 instance.Element.Coordinates.$Latitude.on("blur", function (e) {
