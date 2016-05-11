@@ -1,0 +1,156 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>google street view</title>
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    
+
+    <link rel="stylesheet" href="styles/main.css">
+
+    <script src="scripts/vendor/modernizr.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places"></script>
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <header class="header-wrapper">
+      	<div  class="header-wrapper__branding container">
+      		<!--branding-->
+      		<a href="http://www.freshegg.co.uk/" class="header-wrapper__branding__brand pull-left" title="Home" tabindex="1"><i class="icon-fe-logo"></i><span>Fresh Egg</span><img src="http://www.freshegg.co.uk/themes/freshegg/assets/img/fresh-egg-logo.gif" alt="Fresh Egg Logo"></a>
+      		<div class="header-wrapper__branding__header-tag-line pull-left">
+      			<p>Integrated<br> digital marketing</p>
+      	  </div>
+
+      		<!--Header social-->
+      		<div class="header-wrapper__social pull-right">
+      			<!--Social icons-->
+      			<div class="header-wrapper__social__icons pull-right">
+              <h4>Share this on</h4>
+      				<ul>
+      					<li><a href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fabout.twitter.com%2Fresources%2Fbuttons&amp;ref_src=twsrc%5Etfw&amp;text=Google Street View panorama&amp;tw_p=tweetbutton&amp;url=URL" rel="nofollow" class="header-wrapper__social-icons__twitter" title="Follow Fresh Egg on Twitter" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+      					<li><a href="http://www.facebook.com/share.php?u=URL&amp;title=Google Street View panorama" rel="nofollow" class="header-wrapper__social-icons__facebook" title="Like Fresh Egg on Facebook" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+      					<li><a href="https://plus.google.com/share?url=URL" rel="nofollow" class="header-wrapper__social-icons__googleplus" title="Follow Fresh Egg on Google+" target="_blank"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a></li>
+      					<li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=URL&amp;title=Google Street View panorama&amp;source=URL" rel="nofollow" class="header-wrapper__social-icons__linkedin" title="Follow Fresh Egg on LinkedIn" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+      				</ul>
+      			</div>
+      		</div>
+      	</div> <!--/container-->
+  </header>
+  <div class="sliver-image">&nbsp;</div>
+  <section class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="h2">Google StreetView Search</h1>
+    			<div data-google-street-view-map="true" data-start-latitude="" data-start-longitude="" data-start-Heading="" data-start-pitch="" data-start-zoom="" data-start-pano="" data-latitude-jquery-object="" data-longitude-jquery-object="" data-heading-jquery-object="" data-pitch-jquery-object="" data-zoom-jquery-object="" data-pano-jquery-object="">
+            <form class="form-inline search-form">
+                <div class="form-group">
+                  <label class="sr-only" for="Region">Search</label>
+                  <input type="search" name="StreetViewSearch" class="form-control" />
+                </div>
+                <button id="search-streetview" name="StreetViewSearchSubmit" class="btn btn-primary">Search</button>
+            </form>
+            <div class="control-group" data-google-map-search-results-layout="true">
+    		<div class="controls">
+                <p>Your search brought more than one result. Please click on a location from the list of results to locate it on the map.</p>
+                <ul data-streetview-search-results="true">
+                </ul>
+              </div>
+            </div>
+			<div class="control-group" data-google-map-search-results-none-layout="true">
+				<p>No results could be found from your search.</p>
+            </div>			
+
+
+            <p>There are two maps below. The left-hand side map is a normal view of Google Maps. The right-hand side map is StreetView.</p>
+            <p>If a search is done and the StreetView map is greyed out, drag the yellow "pegman" on the normal view of Google Maps into an area that has StreetView. The StreetView map should then appear.</p>
+            <p>Use the StreetView map to set which area you wish the project to be part of.</p>
+
+            <div class="row maps">
+              <div class="col-md-6">
+                  <div data-street-view-hybrid="true" class="maps__hybrid"></div>
+              </div>
+              <div class="col-md-6">
+                  <div data-street-view-panorama="true" class="maps__panorama"></div>
+              </div>
+            </div>
+
+            <hr />
+    				<script data-streetview-search-results-template="true" type="text/template">
+    					<li><a href="#" data-name="{{name}}" data-formatted-address="{{formattedAddress}}" data-latitude="{{latitude}}" data-longitude="{{longitude}}">{{formattedResult}}</a></li>
+    				</script>
+
+
+            <form class="form-inline map-data">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+          					<label class="control-label" for="Latitude">Latitude</label>
+          					<input  class="form-control" id="Latitude" type="text" />
+          				</div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+          					<label class="control-label" for="Longitude">Longitude</label>
+          					<input  class="form-control" id="Longitude" type="text" />
+          				</div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="Heading">Heading</label>
+                    <input  class="form-control" id="Heading" type="text" readonly="true" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="Pitch">Pitch</label>
+                    <input  class="form-control" id="Pitch" type="text" readonly="true" />
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+          					<label class="control-label" for="Zoom">Zoom</label>
+          					<input  class="form-control" id="Zoom" type="text" readonly="true" />
+          				</div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+          					<label class="control-label" for="Pano">Pano</label>
+          					<input  class="form-control" id="Pano" type="text" readonly="true" />
+          				</div>
+                </div>
+              </div>
+            </form>
+    			</div>
+
+        </div>
+      </div>
+</section>
+<footer class="footer">
+  <div class="footer__wrap container">
+    <ul>
+      <li><a href="http://www.freshegg.co.uk/">Fresh Egg</a></li>
+      <li><a href="http://www.freshegg.co.uk/about-us">About us</a></li>
+      <li><a href="http://www.freshegg.co.uk/contact-us">Contact us</a></li>
+    </ul>
+    <p>© 1999-2016. All rights reserved. Designed by Fresh Egg for Fresh Egg</p>
+  </div>
+
+</footer>
+
+
+    <script src="scripts/vendor.js"></script>
+
+    <script src="scripts/plugins.js"></script>
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
