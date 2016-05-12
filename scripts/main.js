@@ -182,6 +182,7 @@ var main = function main(google, $) {
 					}
 				},
 				streetViewSearchButtonClick: function streetViewSearchButtonClick(e) {
+					this.hideSearchResults();
 					if (e) {
 						// Don't allow the page to refresh when search button is clicked.
 						e.preventDefault();
